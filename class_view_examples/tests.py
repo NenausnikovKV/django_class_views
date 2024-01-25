@@ -10,6 +10,9 @@ class ClassViewTEst(TestCase):
         address = shortcuts.reverse("class_view_examples:simple_template")
         response = self.client.get(address)
         self.assertContains(response, text="Hello", status_code=200)
+        self.assertContains(response, text="Extra context")
+        self.assertContains(response, text="Custom context")
+
 
     def test_standard_method_request(self):
         address = shortcuts.reverse("class_view_examples:standard_method")
@@ -32,7 +35,7 @@ class ClassViewTEst(TestCase):
         self.assertContains(response, text="Publishers", status_code=200)
         self.assertContains(response, text=publisher_name, status_code=200)
 
-        models.Publisher.objects.flilter(name=publisher_name).delete()
+        models.Publisher.objects.filter(name=publisher_name).delete()
 
 
 
