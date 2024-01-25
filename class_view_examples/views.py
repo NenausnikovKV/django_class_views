@@ -9,6 +9,7 @@ from .models import Publisher
 
 
 class StandardMethodRequest(View):
+    # salutation may be redefined when binding an adress
     salutation = "Hello"
 
     def get(self, request):
@@ -38,3 +39,4 @@ class PublisherListView(ListView):
         template_name = "class_view_examples/publisher_list.html"
     """
     model = Publisher
+    context_object_name = "all_publishers"

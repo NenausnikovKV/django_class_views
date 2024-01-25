@@ -1,6 +1,7 @@
 from django import shortcuts
 from django.test import TestCase, Client
 
+from . import models
 
 class ClassViewTEst(TestCase):
     client = Client()
@@ -16,14 +17,22 @@ class ClassViewTEst(TestCase):
         self.assertContains(get_response, text="get", status_code=200)
         post_response = self.client.post(address)
         self.assertContains(post_response, text="post", status_code=200)
-
         head_response = self.client.head(address)
         self.assertEquals(head_response.headers["Head-greeting"], "head_hello")
 
+
     def test_publisher_view_list(self):
+        # todo rewrite create and remove publisher model as 'with as'
+        publisher_name = "Fyodor"
+        models.Publisher.objects.create(name=publisher_name, address="Vorkuta")
+
         address = shortcuts.reverse("class_view_examples:publisher_view")
-        get_response = self.client.get(address)
-        self.assertContains(get_response, text="Publishers", status_code=200)
+        response = self.client.get(address)
+        self.assertContains(response, text="Publishers", status_code=200)
+        self.assertContains(response, text="Publishers", status_code=200)
+        self.assertContains(response, text=publisher_name, status_code=200)
+
+        models.Publisher.objects.flilter(name=publisher_name).delete()
 
 
 

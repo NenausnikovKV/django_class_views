@@ -5,9 +5,14 @@
     <title>Title</title>
 </head>
 <body>
+    <!--
+        context:
+            object_list = Publisher.objects.all()
+            all_publishers = Publisher.objects.all()
+    -->
     <h2>Publishers</h2>
     <ul>
-        {% for publisher in object_list %}
+        {% for publisher in all_publishers %}
             <li>{{ publisher.name }}</li>
         {% endfor %}
     </ul>
