@@ -1,11 +1,9 @@
-from datetime import datetime
 
 from django.http import HttpResponse
-from django.shortcuts import render
 from django.views import View
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 
-from .models import Publisher
+from .models import Publisher, Book
 
 
 class StandardMethodRequest(View):
@@ -31,6 +29,8 @@ class StandardMethodRequest(View):
 class SimpleTemplate(TemplateView):
     template_name = "class_view_examples/simple_template.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
 
 class PublisherListView(ListView):
     """
@@ -40,3 +40,15 @@ class PublisherListView(ListView):
     """
     model = Publisher
     context_object_name = "all_publishers"
+
+
+class PublisherDetailView(DetailView):
+    model = Publisher
+    queryset = Publisher.objects.all()
+    context_object_name = "publisher"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # add or update context item
+        context["book_list"] = Book.objects.all()
+        return context
