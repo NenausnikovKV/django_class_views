@@ -1,10 +1,8 @@
-from datetime import datetime
-
 from django import shortcuts
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import TemplateView, ListView, RedirectView, FormView
+from django.views.generic import TemplateView, ListView, DetailView, RedirectView, FormView
 
 from .forms import ContactForm
 from .models import Publisher
@@ -20,10 +18,9 @@ class StandardMethodRequest(View):
 
     def post(self, request):
         message = f"Response fo post request {self.salutation}"
-        return HttpResponse("Response fo post request")
+        return HttpResponse(message)
 
     def head(self, request):
-
         http_response = HttpResponse(
             headers={"Head-greeting": "head_hello"},
         )
@@ -68,10 +65,21 @@ class PublisherListView(ListView):
     context_object_name = "all_publishers"
 
 
+class PublisherDetailView(DetailView):
+    model = Publisher
+    # context_object_name = "publisher"
+
+    def get_context_data(self, **kwargs):
+        # some useful work
+        context = super().get_context_data(**kwargs)
+        return context
+
+
 class ContactFormView(FormView):
     template_name = "class_view_examples/contact_form.html"
     form_class = ContactForm
-    success_url = shortcuts.reverse("class_view_examples:redirect_page")
+    success_url = reverse_lazy("class_view_examples:redirect_page")
 
     def form_valid(self, form):
         return super().form_valid(form)
+
