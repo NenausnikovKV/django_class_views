@@ -4,8 +4,9 @@ from django import shortcuts
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import TemplateView, ListView, RedirectView
+from django.views.generic import TemplateView, ListView, RedirectView, FormView
 
+from .forms import ContactForm
 from .models import Publisher
 
 
@@ -65,3 +66,12 @@ class PublisherListView(ListView):
     """
     model = Publisher
     context_object_name = "all_publishers"
+
+
+class ContactFormView(FormView):
+    template_name = "class_view_examples/contact_form.html"
+    form_class = ContactForm
+    success_url = shortcuts.reverse("class_view_examples:redirect_page")
+
+    def form_valid(self, form):
+        return super().form_valid(form)

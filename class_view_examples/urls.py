@@ -9,5 +9,6 @@ urlpatterns = [
     path("redirection/", views.SimpleRedirectView.as_view(), name="class_redirect_view"),
     path("redirect_stump/", views.RedirectStump.as_view(), name="redirect_page"),
     path("publisher/", views.PublisherListView.as_view(), name="publisher_view"),
+    path("contact_form/", views.ContactFormView.as_view(), name="contact_form"),
 
 ]
