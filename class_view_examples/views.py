@@ -1,9 +1,10 @@
 from datetime import datetime
 
+from django import shortcuts
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, RedirectView
 
 from .models import Publisher
 
@@ -36,6 +37,25 @@ class SimpleTemplate(TemplateView):
         context = super().get_context_data(**kwargs)
         context.update({"custom_context": "Custom context"})
         return context
+
+
+class SimpleRedirectView(RedirectView):
+    permanent = False
+    query_string = False
+    # url = shortcuts.reverse("class_view_examples:redirect_page")
+    pattern_name = "class_view_examples:redirect_page"
+
+    def get_redirect_url(self, *args, **kwargs):
+        # some helpful work
+        return super().get_redirect_url(*args, **kwargs)
+
+
+class RedirectStump(View):
+
+    @staticmethod
+    def get(request):
+        return HttpResponse("Redirect stump")
+
 
 class PublisherListView(ListView):
     """
