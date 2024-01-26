@@ -31,13 +31,9 @@ class SimpleTemplate(TemplateView):
     extra_context = {"extra_context": "Extra context"}
 
     def get_context_data(self, **kwargs):
-<<<<<<< HEAD
-        context = super().get_context_data()
-=======
         context = super().get_context_data(**kwargs)
         context.update({"custom_context": "Custom context"})
         return context
->>>>>>> master
 
 class PublisherListView(ListView):
     """

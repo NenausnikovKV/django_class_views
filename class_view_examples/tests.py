@@ -24,7 +24,6 @@ class ClassViewTEst(TestCase):
         head_response = self.client.head(address)
         self.assertEquals(head_response.headers["Head-greeting"], "head_hello")
 
-
     def test_publisher_view_list(self):
         # todo rewrite create and remove publisher model as 'with as'
         publisher_name = "Fyodor"
