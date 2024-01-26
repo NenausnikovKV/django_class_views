@@ -1,12 +1,9 @@
-from datetime import datetime
 
-from django import shortcuts
 from django.http import HttpResponse
-from django.shortcuts import render
 from django.views import View
-from django.views.generic import TemplateView, ListView, RedirectView
+from django.views.generic import TemplateView, ListView, DetailView, RedirectView
 
-from .models import Publisher
+from .models import Publisher, Book
 
 
 class StandardMethodRequest(View):
@@ -19,10 +16,9 @@ class StandardMethodRequest(View):
 
     def post(self, request):
         message = f"Response fo post request {self.salutation}"
-        return HttpResponse("Response fo post request")
+        return HttpResponse(message)
 
     def head(self, request):
-
         http_response = HttpResponse(
             headers={"Head-greeting": "head_hello"},
         )
@@ -65,3 +61,13 @@ class PublisherListView(ListView):
     """
     model = Publisher
     context_object_name = "all_publishers"
+
+
+class PublisherDetailView(DetailView):
+    model = Publisher
+    # context_object_name = "publisher"
+
+    def get_context_data(self, **kwargs):
+        # some useful work
+        context = super().get_context_data(**kwargs)
+        return context

@@ -8,6 +8,6 @@ urlpatterns = [
     path("simple_template/", views.SimpleTemplate.as_view(), name="simple_template"),
     path("redirection/", views.SimpleRedirectView.as_view(), name="class_redirect_view"),
     path("redirect_stump/", views.RedirectStump.as_view(), name="redirect_page"),
-    path("publisher/", views.PublisherListView.as_view(), name="publisher_view"),
-
+    path("publisher_list/", views.PublisherListView.as_view(), name="publisher_view"),
+    path("publisher_detail/<int:pk>", views.PublisherDetailView.as_view(), name="publisher_detail"),
 ]
