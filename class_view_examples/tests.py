@@ -27,6 +27,27 @@ class ClassViewTEst(TestCase):
         self.assertContains(response, text="Custom context")
 
 
+    def test_standard_method_request(self):
+        address = shortcuts.reverse("class_view_examples:standard_method")
+        get_response = self.client.get(address)
+        self.assertContains(get_response, text="get", status_code=200)
+        post_response = self.client.post(address)
+        self.assertContains(post_response, text="post", status_code=200)
+        head_response = self.client.head(address)
+        self.assertEquals(head_response.headers["Head-greeting"], "head_hello")
+
+    def test_redirect_stump(self):
+        address = shortcuts.reverse("class_view_examples:redirect_page")
+        response = self.client.get(address)
+        self.assertContains(response, text="Redirect stump")
+
+    def test_redirect_class_view(self):
+        address = shortcuts.reverse("class_view_examples:class_redirect_view")
+        correct_redirect_address = shortcuts.reverse("class_view_examples:redirect_page")
+        response = self.client.get(address)
+        self.assertRedirects(response, correct_redirect_address)
+
+
     def test_publisher_view_list(self):
         # todo rewrite create and remove publisher model as 'with as'
         publisher_name = "Fyodor"
@@ -52,5 +73,3 @@ class ClassViewTEst(TestCase):
         self.assertContains(response, text=book.name)
 
         Publisher.objects.flilter(name=publisher_name).delete()
-
-
