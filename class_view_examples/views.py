@@ -16,10 +16,9 @@ class StandardMethodRequest(View):
 
     def post(self, request):
         message = f"Response fo post request {self.salutation}"
-        return HttpResponse("Response fo post request")
+        return HttpResponse(message)
 
     def head(self, request):
-
         http_response = HttpResponse(
             headers={"Head-greeting": "head_hello"},
         )
