@@ -60,16 +60,16 @@ class ClassViewTEst(TestCase):
 
         Publisher.objects.filter(name=publisher_name).delete()
 
-
     def test_publisher_view_detail(self):
         publisher_name = "Fyodor"
         publisher = Publisher.objects.create(name=publisher_name, address="Vorkuta")
         famous_author = Author.objects.create(name="Someone famous")
-        book = Book.objects.create(title="Tails", authors=[famous_author], publiser=publisher)
+        book = Book.objects.create(title="Tails", publisher=publisher)
+        book.authors.set([famous_author])
 
-        address = shortcuts.reverse("class_view_examples:publisher_detail")
+        address = shortcuts.reverse("class_view_examples:publisher_detail",args=(1,))
         response = self.client.get(address)
         self.assertContains(response, text=publisher.name)
-        self.assertContains(response, text=book.name)
+        self.assertContains(response, text=book.title)
 
-        Publisher.objects.flilter(name=publisher_name).delete()
+        Publisher.objects.filter(name=publisher_name).delete()

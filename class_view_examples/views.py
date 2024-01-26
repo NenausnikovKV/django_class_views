@@ -1,5 +1,4 @@
 
-from django import shortcuts
 from django.http import HttpResponse
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, RedirectView
@@ -66,11 +65,9 @@ class PublisherListView(ListView):
 
 class PublisherDetailView(DetailView):
     model = Publisher
-    queryset = Publisher.objects.all()
-    context_object_name = "publisher"
+    # context_object_name = "publisher"
 
     def get_context_data(self, **kwargs):
+        # some useful work
         context = super().get_context_data(**kwargs)
-        # add or update context item
-        context["book_list"] = Book.objects.all()
         return context
