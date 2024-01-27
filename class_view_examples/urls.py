@@ -10,4 +10,5 @@ urlpatterns = [
     path("redirect_stump/", views.RedirectStump.as_view(), name="redirect_page"),
     path("publisher_list/", views.PublisherListView.as_view(), name="publisher_view"),
     path("publisher_detail/<int:pk>", views.PublisherDetailView.as_view(), name="publisher_detail"),
+    path("contact_form/", views.ContactFormView.as_view(), name="contact_form"),
 ]

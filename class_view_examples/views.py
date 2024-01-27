@@ -1,9 +1,11 @@
-
+from django import shortcuts
 from django.http import HttpResponse
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import TemplateView, ListView, DetailView, RedirectView
+from django.views.generic import TemplateView, ListView, DetailView, RedirectView, FormView
 
-from .models import Publisher, Book
+from .forms import ContactForm
+from .models import Publisher
 
 
 class StandardMethodRequest(View):
@@ -71,3 +73,13 @@ class PublisherDetailView(DetailView):
         # some useful work
         context = super().get_context_data(**kwargs)
         return context
+
+
+class ContactFormView(FormView):
+    template_name = "class_view_examples/contact_form.html"
+    form_class = ContactForm
+    success_url = reverse_lazy("class_view_examples:redirect_page")
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
