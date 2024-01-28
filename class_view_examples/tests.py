@@ -56,7 +56,7 @@ class ClassViewTEst(TestCase):
         book = Book.objects.create(title="Tails", publisher=publisher)
         book.authors.set([famous_author])
 
-        address = shortcuts.reverse("class_view_examples:publisher_detail",args=(1,))
+        address = shortcuts.reverse("class_view_examples:publisher_detail", args=(1,))
         response = self.client.get(address)
         self.assertContains(response, text=publisher.name)
         self.assertContains(response, text=book.title)

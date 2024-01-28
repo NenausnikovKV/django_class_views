@@ -1,3 +1,4 @@
+from django import shortcuts
 from django.db import models
 
 
@@ -17,6 +18,9 @@ class Author(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return shortcuts.reverse("class_view_examples:author_detail", args=(self.pk, ))
 
 
 class Book(models.Model):
