@@ -81,5 +81,6 @@ class ContactFormView(FormView):
     success_url = reverse_lazy("class_view_examples:redirect_page")
 
     def form_valid(self, form):
+        # some your useful work
         return super().form_valid(form)
 
