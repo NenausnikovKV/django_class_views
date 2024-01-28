@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="{% url 'class_view_examples:contact_form' %}" method="post">
+    <form method="post">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="OK">
