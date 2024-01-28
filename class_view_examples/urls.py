@@ -11,4 +11,8 @@ urlpatterns = [
     path("publisher_list/", views.PublisherListView.as_view(), name="publisher_view"),
     path("publisher_detail/<int:pk>", views.PublisherDetailView.as_view(), name="publisher_detail"),
     path("contact_form/", views.ContactFormView.as_view(), name="contact_form"),
+    path("author_detail/<int:pk>", views.AuthorDetailView.as_view(), name="author_detail"),
+    path("author/add/", views.AuthorCreateView.as_view(), name="author_add"),
+    path("author/<int:pk>/", views.AuthorUpdateView.as_view(), name="author_update"),
+    path("author/<int:pk>/delete/", views.AuthorDeleteView.as_view(), name="author_delete"),
 ]
