@@ -9,6 +9,32 @@ from .forms import ContactForm
 from .models import Publisher, Author
 
 
+class RootPage(TemplateView):
+
+    template_name = "class_view_examples/root_template.html"
+    # extra_context = {"addresses": addresses}
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        get_full_url = self.request.build_absolute_uri
+
+        addresses = {
+            "standard_methods/": self.request.build_absolute_uri(reverse_lazy("class_view_examples:standard_method")),
+            "simple_template/": get_full_url(reverse_lazy("class_view_examples:simple_template")),
+            "redirection/": get_full_url(reverse_lazy("class_view_examples:class_redirect_view")),
+            "redirect_stump/": get_full_url(reverse_lazy("class_view_examples:redirect_page")),
+            "publisher_list/": get_full_url(reverse_lazy("class_view_examples:publisher_view")),
+            "publisher_detail/<int:pk>/": get_full_url(reverse_lazy("class_view_examples:publisher_detail", args=(1, ))),
+            "contact_form/": get_full_url(reverse_lazy("class_view_examples:contact_form")),
+            "author_detail/<int:pk>/": get_full_url(reverse_lazy("class_view_examples:author_detail", args=(1, ))),
+            "author/add/": get_full_url(reverse_lazy("class_view_examples:author_add")),
+            "author/<int:pk>/": get_full_url(reverse_lazy("class_view_examples:author_update", args=(1, ))),
+            "author/<int:pk>/delete/": get_full_url(reverse_lazy("class_view_examples:author_delete", args=(1, ))),
+        }
+        context.update({"addresses": addresses})
+        return context
+
+
 class StandardMethodRequest(View):
     # salutation may be redefined when binding an adress
     salutation = "Hello"
