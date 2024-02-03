@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Root</title>
+</head>
+<body>
+    <!--
+        context:
+            addresses: str
+    -->
+    <ul>
+        {% for address_name, address_value in addresses.items %}
+            <li>
+                <p> <a href= {{ address_value }} > {{ address_value }} </a></p>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
