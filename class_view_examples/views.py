@@ -2,10 +2,11 @@ from django import shortcuts
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import TemplateView, ListView, DetailView, RedirectView, FormView
+from django.views.generic import TemplateView, ListView, DetailView, RedirectView, FormView, CreateView, UpdateView, \
+    DeleteView
 
 from .forms import ContactForm
-from .models import Publisher
+from .models import Publisher, Author
 
 
 class RootPage(TemplateView):
@@ -123,4 +124,28 @@ class ContactFormView(FormView):
     def form_valid(self, form):
         # some your useful work
         return super().form_valid(form)
+
+
+class AuthorDetailView(DetailView):
+    model = Author
+
+    def get_context_data(self, **kwargs):
+        # some useful work
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+class AuthorCreateView(CreateView):
+    model = Author
+    fields = ["name"]
+
+
+class AuthorUpdateView(UpdateView):
+    model = Author
+    fields = ["name"]
+
+
+class AuthorDeleteView(DeleteView):
+    model = Author
+    success_url = reverse_lazy("class_view_examples:redirect_page")
 

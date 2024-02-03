@@ -56,7 +56,7 @@ class ClassViewTEst(TestCase):
         book = Book.objects.create(title="Tails", publisher=publisher)
         book.authors.set([famous_author])
 
-        address = shortcuts.reverse("class_view_examples:publisher_detail",args=(1,))
+        address = shortcuts.reverse("class_view_examples:publisher_detail", args=(1,))
         response = self.client.get(address)
         self.assertContains(response, text=publisher.name)
         self.assertContains(response, text=book.title)
@@ -95,3 +95,39 @@ class ClassViewTEst(TestCase):
         incorrect_form = forms.ContactForm({"name": "", "message": "hello"})
         self.assertFalse(incorrect_form.is_valid())
         self.assertFormError(incorrect_form, field="name", errors="This field is required.")
+
+
+    def test_author_crud(self):
+        name = "Emperor"
+        author = Author.objects.create(name=name)
+        next_pk = author.pk + 1
+
+        detail_address = shortcuts.reverse("class_view_examples:author_detail", kwargs={"pk": author.pk})
+        detail_response = self.client.get(detail_address)
+        self.assertTemplateUsed(detail_response, template_name="class_view_examples/author_detail.html")
+        self.assertContains(detail_response, text=name)
+
+        create_address = shortcuts.reverse("class_view_examples:author_add")
+        create_get_response = self.client.get(create_address)
+        self.assertTemplateUsed(create_get_response, template_name="class_view_examples/author_form.html")
+        create_name = "son of Emperor"
+        create_post_response = self.client.post(create_address, data={"name": create_name})
+        new_author_detail_address = shortcuts.reverse("class_view_examples:author_detail", kwargs={"pk": next_pk})
+        self.assertRedirects(create_post_response, new_author_detail_address)
+
+        update_address = shortcuts.reverse("class_view_examples:author_update", kwargs={"pk": next_pk})
+        update_get_response = self.client.get(update_address)
+        self.assertTemplateUsed(update_get_response, template_name="class_view_examples/author_form.html")
+        update_name = "daughter of Emperor"
+        update_post_response = self.client.post(update_address, data={"name": update_name})
+        new_author_detail_address = shortcuts.reverse("class_view_examples:author_detail", kwargs={"pk": next_pk})
+        self.assertRedirects(update_post_response, new_author_detail_address)
+
+        delete_address = shortcuts.reverse("class_view_examples:author_delete", kwargs={"pk": next_pk})
+        delete_get_response = self.client.get(delete_address)
+        self.assertTemplateUsed(delete_get_response, template_name="class_view_examples/author_confirm_delete.html")
+        delete_post_response = self.client.post(delete_address, data={"pk": next_pk})
+        correct_redirect_address = shortcuts.reverse("class_view_examples:redirect_page")
+        self.assertRedirects(delete_post_response, correct_redirect_address)
+
+        author.delete()
